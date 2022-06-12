@@ -7,7 +7,6 @@ import (
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/world"
 	"github.com/go-gl/mathgl/mgl64"
-	"github.com/oomph-ac/oomph/check"
 	"github.com/sandertv/gophertunnel/minecraft/resource"
 	"github.com/sandertv/gophertunnel/minecraft/text"
 	"github.com/sirupsen/logrus"
@@ -115,31 +114,6 @@ func (v *Vasar) Start() error {
 	close(v.c)
 	v.closeArenas()
 	return nil
-}
-
-// CheckAlias returns the translated reason of an anti-cheat check, and if the check should ban.
-func (v *Vasar) CheckAlias(l language.Tag, ch check.Check) (reason string, ban bool) {
-	ban = true
-	switch ch.(type) {
-	case *check.AimAssistA:
-		reason = lang.Translate(l, "cheat.aim.assist")
-	case *check.AutoClickerA, *check.AutoClickerB, *check.AutoClickerC, *check.AutoClickerD:
-		reason, ban = lang.Translate(l, "cheat.auto.clicker"), false
-	case *check.InvalidMovementC:
-		reason = lang.Translate(l, "cheat.invalid.movement")
-	case *check.KillAuraA, *check.KillAuraB:
-		reason = lang.Translate(l, "cheat.kill.aura")
-	case *check.OSSpoofer:
-		reason, ban = lang.Translate(l, "cheat.os.spoof"), false
-	case *check.ReachA:
-		reason, ban = lang.Translate(l, "cheat.reach"), false
-	case *check.TimerA:
-		reason, ban = lang.Translate(l, "cheat.timer"), false
-	default:
-		name, _ := ch.Name()
-		reason = name
-	}
-	return
 }
 
 // ToggleGlobalMute toggles the global mute state of the chat.
